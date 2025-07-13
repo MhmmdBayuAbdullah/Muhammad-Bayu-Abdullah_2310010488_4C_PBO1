@@ -96,7 +96,8 @@ public class MenuCafe extends BayuCafe {
 }
 ```
 
-9. **Polymorphism** adalah konsep di mana sebuah nama dapat digunakan untuk merujuk ke beberapa tipe atau bentuk objek berbeda. Ini memungkinkan metode-metode dengan nama yang sama untuk berperilaku berbeda tergantung pada tipe objek yang mereka manipulasi, polymorphism bisa berbentuk Overloading ataupun Overriding. Pada kode ini, method `displayInfo(String)` di `Mahasiswa` merupakan overloading method `displayInfo` dan `displayInfo` di `MahasiswaDetail` merupakan override dari method `displayInfo` di `Mahasiswa`.
+9. **Polymorphism** adalah konsep di mana sebuah nama dapat digunakan untuk merujuk ke beberapa tipe atau bentuk objek berbeda. Ini memungkinkan metode-metode dengan nama yang sama untuk berperilaku berbeda tergantung pada tipe objek yang mereka manipulasi, polymorphism bisa berbentuk Overloading ataupun Overriding. Pada program ini, method displayInfo() yang ada di class MenuCafe merupakan override dari method displayInfo() di class BayuCafe.
+Tujuannya adalah untuk menambahkan informasi apakah kopi tersebut dingin atau panas, sesuai dengan atribut boolean kopi, Sementara method asli di class BayuCafe hanya menampilkan nama dan harga kopi.
 
 ```bash
 @Override
@@ -104,66 +105,104 @@ public void displayInfo() {
     String jenis = kopi ? "Dingin" : "Panas";
     System.out.println(jenis + " " + getNama() + " - Rp" + getHarga());
 }
+
+public void displayInfo() {
+    System.out.println("Nama Kopi: " + nama + ", Harga: Rp" + harga);
+}
 ```
 
-10. **Seleksi** adalah statement kontrol yang digunakan untuk membuat keputusan berdasarkan kondisi. Pada kode ini, digunakan seleksi `if else` dalam method `getFakultas` dan seleksi `switch` dalam method `getProdi`.
+10. **Seleksi** adalah statement kontrol yang digunakan untuk membuat keputusan berdasarkan kondisi. Pada kode ini, digunakan seleksi `if else` dalam method `MenuCafe`.
 
 ```bash
-public String getFakultas() {
-    if(getNpm().substring(2, 4).equals("10")){
-        return "Teknologi Informasi";
-    } else {
-        return "Fakultas lain";
-    }
-
-    //return getNpm().substring(2, 4).equals("10") ? "Teknologi Informasi" : "Fakultas lain";
-}
-
-public String getProdi() {
-    switch(getNpm().substring(4, 6)) {
-        case "01":
-            return "Teknik Informatika";
-        case "02":
-            return "Sistem Informasi";
-        default:
-            return "Prodi lain";
-    }
-}
+if (pilih < 1 || pilih > menu.length) {
+                        System.out.println("Pilih menu yang tersedia. Coba lihat lagi.");
+                    } else {
+                        break;
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println(" Input harus angka menu yang tersedia! Coba input lagi.");
+                }
+            }   MenuCafe selected = menu[pilih - 1];
+            int quantity = 0;
 ```
 
 11. **Perulangan** adalah statement kontrol yang digunakan untuk menjalankan blok kode berulang kali. Pada kode ini, digunakan loop `for` untuk meminta input dan menampilkan data.
 
 ```bash
-for (int i = 0; i < mahasiswas.length; i++) {
-    ...
-}
+for (int i = 0; i < menu.length; i++) {
+                System.out.print((i + 1) + ". ");
+                menu[i].displayInfo();
+            }   int pilih = 0;
 ```
 
 12. **Input Output Sederhana** digunakan untuk menerima input dari user dan menampilkan output ke user. Pada kode ini, digunakan class `Scanner` untuk menerima input dan method `System.out.println` untuk menampilkan output.
 
 ```bash
-Scanner scanner = new Scanner(System.in);
-System.out.print("Masukkan Nama Mahasiswa ke-" + (i + 1) + ": ");
-String nama = scanner.nextLine();
-
-System.out.println("\nData Mahasiswa:");
-System.out.println(mahasiswa.displayInfo());
+try ( // Komponen: IO Sederhana
+                Scanner input = new Scanner(System.in)) {
+...
+while (true) {
+                try {
+                    System.out.print("Pilih menu (1-" + menu.length + "): ");
+                    pilih = Integer.parseInt(input.nextLine());
+                    
+                    // Komponen: Seleksi
+                    if (pilih < 1 || pilih > menu.length) {
+                        System.out.println("Pilih menu yang tersedia. Coba lihat lagi.");
+                    } else {
+                        break;
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println(" Input harus angka menu yang tersedia! Coba input lagi.");
+                }
+            }   MenuCafe selected = menu[pilih - 1];
+            int quantity = 0;
+            //  Komponen: Error Handling
+            while (true) {
+                try {
+                    System.out.print("Berapa cup " + selected.getNama() + " yang ingin Anda beli? ");
+                    quantity = Integer.parseInt(input.nextLine());
+                    
+                    // Komponen: Seleksi
+                    if (quantity <= 0) {
+                        System.out.println("Jumlah harus lebih dari nol, antara 1 sampai 4. Coba pesan lagi!");
+                    } else {
+                        break;
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Input kurang tepat. Mungkin harus berupa angka. Coba pesan lagi!");
+                }
+            }   double total = selected.getHarga() * quantity;
+            System.out.println("Total Bayar: Rp" + total);
+            System.out.println("Terima kasih telah memesan di Bayu Coffee Guys");
+            // Menutup scanner
+        }
 ```
 
-13. **Array** adalah struktur data yang digunakan untuk menyimpan beberapa nilai dalam satu variabel. Pada kode ini, `MahasiswaDetail[] mahasiswas = new MahasiswaDetail[2];` adalah contoh penggunaan array.
+13. **Array** adalah struktur data yang digunakan untuk menyimpan beberapa nilai dalam satu variabel. Pada kode ini, `MenuCafe[] menu = {...};` adalah contoh penggunaan array.
 
 ```bash
-MahasiswaDetail[] mahasiswas = new MahasiswaDetail[2];
+MenuCafe[] menu = {kopi1, kopi2, kopi3, kopi4};
 ```
 
 14. **Error Handling** digunakan untuk menangani error yang mungkin terjadi saat runtime. Pada kode ini, digunakan `try catch` untuk menangani error.
 
 ```bash
-try {
-    // code that might throw an exception
-} catch (Exception e) {
-    System.out.println("Error: " + e.getMessage());
-}
+while (true) {
+                try {
+                    System.out.print("Berapa cup " + selected.getNama() + " yang ingin Anda beli? ");
+                    quantity = Integer.parseInt(input.nextLine());
+                    
+                    // Komponen: Seleksi
+                    if (quantity <= 0) {
+                        System.out.println("Jumlah harus lebih dari nol, antara 1 sampai 4. Coba pesan lagi!");
+                    } else {
+                        break;
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Input kurang tepat. Mungkin harus berupa angka. Coba pesan lagi!");
+                }
+            }
 ```
 
 ## Usulan nilai
@@ -188,5 +227,5 @@ try {
 
 ## Pembuat
 
-Nama: Muhammad Edya Rosadi
-NPM: 2110010001
+Nama: Muhammad Bayu Abdullah
+NPM: 2310010488
